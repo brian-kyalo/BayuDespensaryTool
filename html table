@@ -1,0 +1,138 @@
+<?php
+// Establish the database connection
+$db = new mysqli('localhost', 'root', '', 'bayu');
+
+// Check for any errors in the connection
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
+
+// Pagination variables
+$resultsPerPage = 10; // Number of results to display per page
+$current_page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$offset = ($current_page - 1) * $resultsPerPage;
+
+// Retrieve patient records from the database with pagination
+$query = "SELECT * FROM patient LIMIT $resultsPerPage OFFSET $offset";
+$result = $db->query($query);
+
+// Check if there are any patients
+if ($result->num_rows > 0) {
+    // Display the HTML table with patient records
+    echo <<<HTML
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+
+                th, td {
+                    text-align: left;
+                    padding: 8px;
+                }
+
+                tr:nth-child(even) {
+                    background-color: #f2f2f2;
+                }
+
+                .pagination {
+                    margin-top: 20px;
+                }
+
+                .pagination a {
+                    display: inline-block;
+                    padding: 8px 16px;
+                    text-decoration: none;
+                    background-color: #f2f2f2;
+                    color: black;
+                }
+
+                .pagination a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                }
+            </style>
+        </head>
+        <body>
+            <h2>Doctor's Profile - Patients List</h2>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+HTML;
+
+    // Loop through each patient record and display it in a row
+    while ($row = $result->fetch_assoc()) {
+        $id = $row['id'];
+        $name = $row['name'];
+        $email = $row['email'];
+
+        echo <<<HTML
+            <tr>
+                <td>$id</td>
+                <td>$name</td>
+                <td>$email</td>
+                <td>
+                    <button onclick="editPatient($id)">Edit</button>
+                    <button onclick="deletePatient($id)">Delete</button>
+                </td>
+            </tr>
+HTML;
+    }
+
+    echo <<<HTML
+            </table>
+        </body>
+        </html>
+HTML;
+
+    // Calculate the total number of pages for pagination
+    $totalResultsQuery = "SELECT COUNT(*) AS total FROM patient";
+    $totalResults = $db->query($totalResultsQuery)->fetch_assoc()['total'];
+    $totalPages = ceil($totalResults / $resultsPerPage);
+
+    // Generate pagination links
+    echo '<div class="pagination">';
+    for ($i = 1; $i <= $totalPages; $i++) {
+        $activeClass = ($i == $current_page) ? 'active' : '';
+        echo "<a href='?page=$i' class='$activeClass'>$i</a>";
+    }
+    echo '</div>';
+} else {
+    echo "No patients found.";
+}
+
+// Close the database connection
+$db->close();
+?>
+
+<script>
+    function editPatient(patientId) {
+        // Implement your logic for editing a patient
+        // Redirect to the edit page or show a modal, etc.
+        console.log("Editing patient with ID: " + patientId);
+    }
+
+    function deletePatient(patientId) {
+        if (confirm("Are you sure you want to delete this patient?")) {
+            // Make an AJAX request to delete the patient
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    console.log("Patient deleted successfully!");
+                    // Refresh the page or update the patient list
+                    location.reload();
+                }
+            };
+            xhttp.open("POST", "delete_patient.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("patient_id=" + patientId);
+        }
+    }
+</script>
