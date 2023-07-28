@@ -1,0 +1,7 @@
+.sub-menu-wrap{
+    position: absolute;  
+    top: 100%;
+    right: 10%;
+    background-color: brown;
+    width: 300px;
+}

@@ -1,0 +1,103 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@800&family=Pangolin&family=Playfair+Display&display=swap');
+
+
+:root {
+  --normal-font: 400;
+  --bold-font: 600;
+  --bolder-font: 900;
+  --primary-color: rgb(93, 151, 227);
+  --secondary-color: #ea2027;
+  --line-height: 1.7rem;
+  --transition: 0.8s ease-in;
+}
+
+/* Scroll effect for the entire page  */
+html{
+  scroll-behavior: smooth;
+}
+
+ul{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul li{
+  list-style-type: none;
+}
+
+nav a{
+  text-decoration: none;
+  color: black;
+}
+
+nav a:hover{
+  color: aliceblue;
+  font-size: 1.2rem;
+}
+
+.bayu{
+  text-decoration: none;
+  margin-right: 5px;
+  color: black;
+  font-family: 'Pangolin', cursive;
+  font-weight: 800;
+  font-size: 1.6rem;
+}
+
+.bayu:hover{
+  color: aliceblue;
+  font-size: 2rem;
+  text-decoration: none;
+  
+}
+
+.dispensary{
+  
+  color: aliceblue;
+  font-family: 'Pangolin', cursive;
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.dispensary:hover{
+  color: rgb(223, 220, 220);
+  font-size: 1.8rem;
+  color: black;
+  
+}
+.icon{
+  position: absolute;
+  font-size: 1.5rem;
+  color: rgb(22, 22, 238);
+  font-family: 'Pangolin', cursive;
+  font-weight: 800;
+  transition: .2s;
+}
+.icon:hover{
+  text-decoration: wavy;
+  font-size: 1.5rem;
+}
+
+
+nav{
+  background-color: rgb(93, 151, 227);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  box-shadow: 2px 3px 2px rgb(98, 97, 97);
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.nav-item{
+  margin-left: 2rem;
+}
+
+
+
